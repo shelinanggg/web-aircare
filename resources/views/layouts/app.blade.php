@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>AIRCARE – @yield('title', 'Airlangga Library Care & Return Service')</title>
+    <title>AIRCARE - @yield('title', 'Airlangga Library Care & Return Service')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
 </head>
@@ -16,11 +16,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
                 <div class="brand-icon">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                        <rect width="28" height="28" rx="8" fill="#00BFA5"/>
-                        <path d="M7 10l7-4 7 4v8l-7 4-7-4V10z" stroke="white" stroke-width="1.5" fill="none"/>
-                        <path d="M14 6v16M7 10l7 4 7-4" stroke="white" stroke-width="1.5"/>
-                    </svg>
+                    <img src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png" alt="Logo UNAIR" style="width: 36px; height: auto; object-fit: contain; border-radius: 4px;">
                 </div>
                 <div>
                     <div class="brand-name">AIRCARE</div>
