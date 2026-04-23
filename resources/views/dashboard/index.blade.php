@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
-@section('page-title', 'Dashboard / Personal Workspace')
+@section('page-title', 'Dashboard')
 
 @section('content')
 <div class="page-header">
     <div>
-        <h1 class="page-title">Personal Workspace</h1>
+        <h1 class="page-title">Dashboard</h1>
         <p class="page-subtitle">Ringkasan sistem pengelolaan barang tertinggal AIRCARE</p>
     </div>
     <a href="{{ route('items.create') }}" class="btn btn-primary">
