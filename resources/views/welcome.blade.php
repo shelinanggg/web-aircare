@@ -5,10 +5,10 @@
 {{-- Hero --}}
 <section class="hero">
     <div class="hero-inner">
-        <div class="hero-eyebrow">Universitas Airlangga · Kampus A, B & C</div>
+        <div class="hero-eyebrow">Perpustakaan Universitas Airlangga · Kampus A, B & C</div>
         <h1 class="hero-title">Found with Care,<br>Returned with Heart</h1>
         <p class="hero-sub">
-            AIRCARE adalah sistem digital pengelolaan barang tertinggal terintegrasi di seluruh perpustakaan Universitas Airlangga - transparan, efisien, dan akuntabel.
+            AIRCARE adalah sistem digital pengelolaan barang tertinggal terintegrasi di seluruh perpustakaan Universitas Airlangga yang transparan, efisien, dan akuntabel.
         </p>
         <div class="hero-actions">
             <a href="{{ route('items.public') }}" class="btn btn-primary" style="padding:12px 28px; font-size:0.95rem;">
@@ -128,19 +128,19 @@
     </div>
 </div>
 
-{{-- Implementation Timeline --}}
+{{-- Cara Mencari Barang --}}
 <div class="section">
     <div style="text-align:center; margin-bottom:40px;">
-        <h2 class="section-title">Tahapan Implementasi 2026</h2>
+        <h2 class="section-title">Cara Mencari Barang di Aircare</h2>
     </div>
     <div style="position:relative; max-width:800px; margin:0 auto;">
         <div style="position:absolute; top:20px; left:10%; right:10%; height:3px; background:linear-gradient(90deg, var(--unair-blue), var(--unair-blue-light)); border-radius:2px;"></div>
         <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; position:relative; z-index:2;">
             @foreach([
-                ['num'=>'1', 'title'=>'Persiapan', 'desc'=>'Pembentukan tim, inventarisasi, format pendataan', 'period'=>'Jan-Feb'],
-                ['num'=>'2', 'title'=>'Pelaksanaan', 'desc'=>'Pendataan digital, QR code, SOP, pelatihan staf', 'period'=>'Mar-Jun'],
-                ['num'=>'3', 'title'=>'Evaluasi', 'desc'=>'Monitoring semester, rekap data, laporan hasil', 'period'=>'Jul-Sep'],
-                ['num'=>'4', 'title'=>'Keberlanjutan', 'desc'=>'Integrasi SOP permanen, pengembangan sistem', 'period'=>'Okt-Des'],
+                ['num'=>'1', 'title'=>'Akses Sistem', 'desc'=>'Kunjungi situs web resmi Aircare melalui browser pada perangkat pribadi Anda.', 'period'=>'Langkah 1'],
+                ['num'=>'2', 'title'=>'Cari Barang', 'desc'=>'Gunakan kolom pencarian. Masukkan kata kunci, kategori barang, atau tanggal kehilangan.', 'period'=>'Langkah 2'],
+                ['num'=>'3', 'title'=>'Verifikasi Detail', 'desc'=>'Klik barang yang mirip. Periksa foto, ciri-ciri, tanggal kehilangan, dan lokasi penemuan barang.', 'period'=>'Langkah 3'],
+                ['num'=>'4', 'title'=>'Klaim & Ambil', 'desc'=>'Temui petugas perpustakaan untuk verifikasi kepemilikan dengan menunjukkan barcode barang.', 'period'=>'Langkah 4'],
             ] as $step)
             <div style="text-align:center;">
                 <div style="width:40px; height:40px; border-radius:50%; background:var(--unair-blue); color:#ffffff; font-weight:800; font-size:1rem; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; box-shadow:0 0 0 4px rgba(0,78,154,0.15);">
