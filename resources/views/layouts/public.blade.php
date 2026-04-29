@@ -18,7 +18,7 @@
                 <img src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png" alt="Logo UNAIR" style="height: 38px; width: auto; object-fit: contain;">
                 <div style="display: flex; flex-direction: column; justify-content: center;">
                     <span style="font-weight: 800; font-size: 1.15rem; color: var(--unair-blue, #004e9a); line-height: 1.1;">AIRCARE</span>
-                    <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted, #64748b); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Lost & Found System</span>
+                    <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted, #64748b); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Airlangga Library Care & Return Service</span>
                 </div>
             </a>
 
@@ -42,7 +42,7 @@
             <div class="footer-brand">
                 <strong>AIRCARE</strong> — Airlangga Library Care & Return Service
             </div>
-            <div class="footer-text">Universitas Airlangga · Kampus A, B & C</div>
+            <div class="footer-text">Perpustakaan Universitas Airlangga</div>
         </div>
     </footer>
     @stack('scripts')

@@ -23,7 +23,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Protected routes (staff & admin)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+    Route::get('/scan/{code}',       [ItemController::class, 'scan'])->name('items.scan');
     Route::get('/barang',            [ItemController::class, 'index'])->name('items.index');
     Route::get('/barang/tambah',     [ItemController::class, 'create'])->name('items.create');
     Route::post('/barang',           [ItemController::class, 'store'])->name('items.store');

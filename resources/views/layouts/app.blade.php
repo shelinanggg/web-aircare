@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <div class="brand-name">AIRCARE</div>
-                    <div class="brand-sub">Lost & Found System</div>
+                    <div class="brand-sub">Airlangga Library Care & Return Service</div>
                 </div>
             </div>
 

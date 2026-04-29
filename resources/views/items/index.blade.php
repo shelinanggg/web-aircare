@@ -85,7 +85,6 @@
             <option value="other" {{ request('category') == 'other' ? 'selected' : '' }}>Lainnya</option>
         </select>
 
-        {{-- Update array anyFilled agar mencakup 'date' --}}
         @if(request()->anyFilled(['search','status','campus','category','date']))
             <a href="{{ route('items.index') }}" class="btn btn-ghost btn-sm">Reset</a>
         @endif
@@ -222,10 +221,12 @@
 
 <script>
 let html5QrCode = null;
+let isRedirecting = false; // Tambahkan flag penahan
 
 function openScanner() {
     const modal = document.getElementById('scannerModal');
     modal.style.display = 'flex';
+    isRedirecting = false; // Reset flag saat dibuka
 
     html5QrCode = new Html5Qrcode("reader");
 
@@ -257,7 +258,22 @@ function closeScanner() {
 }
 
 function onScanSuccess(decodedText) {
-    window.location.href = "{{ url('/scan') }}/" + encodeURIComponent(decodedText);
+    // Jika sedang proses redirect, hentikan agar tidak trigger berkali-kali
+    if (isRedirecting) return;
+    
+    isRedirecting = true; // Kunci proses
+    
+    // Matikan scanner terlebih dahulu
+    if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+            html5QrCode.clear();
+            // Arahkan ke halaman scan setelah kamera mati
+            window.location.href = "{{ url('/scan') }}/" + encodeURIComponent(decodedText);
+        }).catch(() => {
+            // Jika stop gagal, tetap paksakan redirect
+            window.location.href = "{{ url('/scan') }}/" + encodeURIComponent(decodedText);
+        });
+    }
 }
 </script>
 @endsection
