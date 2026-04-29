@@ -147,7 +147,7 @@
             Hubungi Petugas Perpustakaan
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:16px;">
-            @foreach(['Kampus A' => 'Jl. Dharmawangsa Dalam, Surabaya', 'Kampus B' => 'Jl. Mulyorejo, Surabaya', 'Kampus C' => 'Jl. Mulyorejo No.1, Surabaya'] as $campus => $addr)
+            @foreach(['Kampus A' => 'Jl. Prof. DR. Moestopo No.47, Pacar Kembang, Kec. Tambaksari, Surabaya, Jawa Timur 60132', 'Kampus B' => 'Airlangga, Kec. Gubeng, Surabaya, Jawa Timur 60286', 'Kampus C' => 'Mulyorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60115'] as $campus => $addr)
             <div style="background:var(--bg-card-dark); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; text-align:center;">
                 <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px; color:var(--unair-blue);">{{ $campus }}</div>
                 <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.5;">{{ $addr }}</div>
