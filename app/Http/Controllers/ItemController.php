@@ -13,16 +13,35 @@ class ItemController extends Controller
     {
         $query = Item::query();
 
-        if ($request->filled('status'))   $query->where('status', $request->status);
-        if ($request->filled('campus'))   $query->where('campus', $request->campus);
-        if ($request->filled('category')) $query->where('category', $request->category);
-        if ($request->filled('search'))   $query->where(function($q) use ($request) {
-            $q->where('name', 'like', "%{$request->search}%")
-              ->orWhere('qr_code', 'like', "%{$request->search}%")
-              ->orWhere('description', 'like', "%{$request->search}%");
-        });
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
-        $items = $query->orderByDesc('created_at')->paginate(12)->withQueryString();
+        if ($request->filled('campus')) {
+            $query->where('campus', $request->campus);
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter berdasarkan tanggal ditemukan
+        if ($request->filled('date')) {
+            $query->whereDate('found_date', $request->date);
+        }
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('qr_code', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $items = $query->orderByDesc('created_at')
+            ->paginate(12)
+            ->withQueryString();
+
         return view('items.index', compact('items'));
     }
 
@@ -36,7 +55,7 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name'            => 'required|string|max:255',
             'description'     => 'nullable|string',
-            'category'        => 'required|in:electronics,documents,accessories,bags,clothing,other',
+            'category'        => 'required|in:valuable,documents,electronics,personal,other',
             'campus'          => 'required|in:kampus-a,kampus-b,kampus-c',
             'location_detail' => 'nullable|string|max:255',
             'found_by'        => 'nullable|string|max:255',
@@ -46,7 +65,7 @@ class ItemController extends Controller
         ]);
 
         $validated['qr_code'] = Item::generateQrCode();
-        $validated['status']  = 'found';
+        $validated['status'] = 'found';
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('items', 'public');
@@ -58,16 +77,21 @@ class ItemController extends Controller
             'user_id'     => auth()->id(),
             'item_id'     => $item->id,
             'action'      => 'item_found',
-            'description' => "Barang baru tercatat: {$item->name} di {$item->campus_label}",
+            'description' => 'Barang baru tercatat: ' . $item->name . ' di ' . $item->campus_label,
         ]);
 
-        return redirect()->route('items.show', $item)
+        return redirect()
+            ->route('items.show', $item)
             ->with('success', 'Barang berhasil dicatat dengan kode ' . $item->qr_code);
     }
 
     public function show(Item $item)
     {
-        $logs = ActivityLog::where('item_id', $item->id)->with('user')->orderByDesc('created_at')->get();
+        $logs = ActivityLog::where('item_id', $item->id)
+            ->with('user')
+            ->orderByDesc('created_at')
+            ->get();
+
         return view('items.show', compact('item', 'logs'));
     }
 
@@ -81,7 +105,7 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name'            => 'required|string|max:255',
             'description'     => 'nullable|string',
-            'category'        => 'required|in:electronics,documents,accessories,bags,clothing,other',
+            'category'        => 'required|in:valuable,documents,electronics,personal,other',
             'campus'          => 'required|in:kampus-a,kampus-b,kampus-c',
             'location_detail' => 'nullable|string|max:255',
             'found_by'        => 'nullable|string|max:255',
@@ -91,7 +115,10 @@ class ItemController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($item->image) Storage::disk('public')->delete($item->image);
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+
             $validated['image'] = $request->file('image')->store('items', 'public');
         }
 
@@ -101,10 +128,12 @@ class ItemController extends Controller
             'user_id'     => auth()->id(),
             'item_id'     => $item->id,
             'action'      => 'item_updated',
-            'description' => "Data barang diperbarui: {$item->name}",
+            'description' => 'Data barang diperbarui: ' . $item->name,
         ]);
 
-        return redirect()->route('items.show', $item)->with('success', 'Data barang diperbarui.');
+        return redirect()
+            ->route('items.show', $item)
+            ->with('success', 'Data barang diperbarui.');
     }
 
     public function claim(Request $request, Item $item)
@@ -125,31 +154,57 @@ class ItemController extends Controller
             'user_id'     => auth()->id(),
             'item_id'     => $item->id,
             'action'      => 'item_claimed',
-            'description' => "Barang diambil oleh {$request->claimed_by} (NIM: {$request->claimer_nim})",
+            'description' => 'Barang diambil oleh ' . $request->claimed_by . ' (NIM: ' . $request->claimer_nim . ')',
         ]);
 
-        return redirect()->route('items.show', $item)->with('success', 'Barang berhasil diserahkan.');
+        return redirect()
+            ->route('items.show', $item)
+            ->with('success', 'Barang berhasil diserahkan.');
     }
 
     public function dispose(Request $request, Item $item)
     {
-        $item->update(['status' => 'disposed']);
+        // Perbaikan: Mengambil input 'status' (sesuai nama form HTML), bukan 'type'
+        $type = $request->input('status', 'disposed');
+
+        if (!in_array($type, ['disposed', 'donated', 'handed_over'])) {
+            $type = 'disposed';
+        }
+
+        $item->update([
+            'status' => $type,
+        ]);
+
+        $label = match ($type) {
+            'disposed'    => 'Dimusnahkan',
+            'donated'     => 'Dihibahkan',
+            'handed_over' => 'Diserahkan ke DITPILAR',
+            default       => 'Diproses',
+        };
 
         ActivityLog::create([
             'user_id'     => auth()->id(),
             'item_id'     => $item->id,
-            'action'      => 'item_disposed',
-            'description' => "Barang dimusnahkan/didonasikan: {$item->name}",
+            'action'      => 'item_status_changed',
+            'description' => 'Status barang: ' . $label . ' - ' . $item->name,
         ]);
 
-        return redirect()->route('items.index')->with('success', 'Status barang diperbarui.');
+        return redirect()
+            ->route('items.index')
+            ->with('success', 'Status barang berhasil diperbarui.');
     }
 
     public function destroy(Item $item)
     {
-        if ($item->image) Storage::disk('public')->delete($item->image);
+        if ($item->image) {
+            Storage::disk('public')->delete($item->image);
+        }
+
         $item->delete();
-        return redirect()->route('items.index')->with('success', 'Barang dihapus dari sistem.');
+
+        return redirect()
+            ->route('items.index')
+            ->with('success', 'Barang dihapus dari sistem.');
     }
 
     public function publicSearch(Request $request)
@@ -157,17 +212,38 @@ class ItemController extends Controller
         $query = Item::where('status', 'found');
 
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('category', 'like', "%{$request->search}%")
-                  ->orWhere('description', 'like', "%{$request->search}%");
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('category', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%')
+                    ->orWhere('qr_code', 'like', '%' . $request->search . '%');
             });
         }
 
-        if ($request->filled('campus'))   $query->where('campus', $request->campus);
-        if ($request->filled('category')) $query->where('category', $request->category);
+        if ($request->filled('campus')) {
+            $query->where('campus', $request->campus);
+        }
 
-        $items = $query->orderByDesc('found_date')->paginate(9)->withQueryString();
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter berdasarkan tanggal ditemukan untuk halaman Public
+        if ($request->filled('date')) {
+            $query->whereDate('found_date', $request->date);
+        }
+
+        $items = $query->orderByDesc('found_date')
+            ->paginate(9)
+            ->withQueryString();
+
         return view('items.public', compact('items'));
+    }
+
+    public function scan($code)
+    {
+        $item = Item::where('qr_code', $code)->firstOrFail();
+
+        return redirect()->route('items.show', $item);
     }
 }

@@ -8,13 +8,15 @@
         <h1 class="page-title">Catat Barang Baru</h1>
         <p class="page-subtitle">Isi formulir untuk mendaftarkan barang tertinggal ke sistem</p>
     </div>
+
     <a href="{{ route('items.index') }}" class="btn btn-ghost">← Kembali</a>
 </div>
 
 <div style="max-width: 800px;">
     <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card" style="margin-bottom: 20px;">
+
+        <div class="card" style="margin-bottom:20px;">
             <div class="card-header">
                 <div class="card-title">Informasi Barang</div>
             </div>
@@ -22,39 +24,92 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Nama Barang *</label>
-                    <input type="text" name="name" class="form-control" placeholder="Contoh: Laptop Asus, Dompet Hitam..." value="{{ old('name') }}" required>
-                    @error('name')<div class="form-error">{{ $message }}</div>@enderror
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="Contoh: iPhone 13, Dompet Hitam, KTM, Charger..."
+                        value="{{ old('name') }}"
+                        required
+                    >
+                    @error('name')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">Kategori *</label>
                     <select name="category" class="form-select" required>
                         <option value="">Pilih kategori...</option>
-                        <option value="electronics" {{ old('category') == 'electronics' ? 'selected' : '' }}>Elektronik</option>
-                        <option value="documents"   {{ old('category') == 'documents'   ? 'selected' : '' }}>Dokumen / Kartu</option>
-                        <option value="accessories" {{ old('category') == 'accessories' ? 'selected' : '' }}>Aksesori</option>
-                        <option value="bags"        {{ old('category') == 'bags'        ? 'selected' : '' }}>Tas & Dompet</option>
-                        <option value="clothing"    {{ old('category') == 'clothing'    ? 'selected' : '' }}>Pakaian</option>
-                        <option value="other"       {{ old('category') == 'other'       ? 'selected' : '' }}>Lainnya</option>
+
+                        <option value="valuable" {{ old('category') == 'valuable' ? 'selected' : '' }}>
+                            Barang Berharga
+                        </option>
+
+                        <option value="documents" {{ old('category') == 'documents' ? 'selected' : '' }}>
+                            Dokumen Berharga
+                        </option>
+
+                        <option value="electronics" {{ old('category') == 'electronics' ? 'selected' : '' }}>
+                            Barang Elektronik
+                        </option>
+
+                        <option value="personal" {{ old('category') == 'personal' ? 'selected' : '' }}>
+                            Barang Pribadi Umum
+                        </option>
+
+                        <option value="other" {{ old('category') == 'other' ? 'selected' : '' }}>
+                            Lainnya
+                        </option>
                     </select>
-                    @error('category')<div class="form-error">{{ $message }}</div>@enderror
+
+                    @error('category')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+
+                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">
+                        Barang Berharga: HP, Laptop, Dompet, Perhiasan |
+                        Dokumen: KTM, SIM, Paspor, ATM |
+                        Elektronik: Charger, Powerbank, Headset |
+                        Pribadi: Tas, Jaket, Buku, Botol Minum
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="form-label">Deskripsi Barang</label>
-                <textarea name="description" class="form-control" placeholder="Warna, merek, ciri khas, kondisi barang...">{{ old('description') }}</textarea>
-                @error('description')<div class="form-error">{{ $message }}</div>@enderror
+                <textarea
+                    name="description"
+                    class="form-control"
+                    placeholder="Warna, merek, ciri khas, kondisi barang..."
+                >{{ old('description') }}</textarea>
+
+                @error('description')
+                    <div class="form-error">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label class="form-label">Foto Barang</label>
-                <input type="file" name="image" class="form-control" accept="image/*">
-                <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Format: JPG, PNG. Maks 2MB. Sangat dianjurkan untuk mempermudah identifikasi.</div>
-                @error('image')<div class="form-error">{{ $message }}</div>@enderror
+
+                <input
+                    type="file"
+                    name="image"
+                    class="form-control"
+                    accept="image/*"
+                >
+
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">
+                    Format JPG / PNG, maksimal 2MB. Disarankan untuk mempermudah identifikasi.
+                </div>
+
+                @error('image')
+                    <div class="form-error">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
-        <div class="card" style="margin-bottom: 20px;">
+        <div class="card" style="margin-bottom:20px;">
             <div class="card-header">
                 <div class="card-title">Lokasi & Waktu Penemuan</div>
             </div>
@@ -62,50 +117,105 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Kampus *</label>
+
                     <select name="campus" class="form-select" required>
                         <option value="">Pilih kampus...</option>
-                        <option value="kampus-a" {{ old('campus') == 'kampus-a' ? 'selected' : '' }}>Kampus A – Dharmawangsa</option>
-                        <option value="kampus-b" {{ old('campus') == 'kampus-b' ? 'selected' : '' }}>Kampus B – Mulyorejo</option>
-                        <option value="kampus-c" {{ old('campus') == 'kampus-c' ? 'selected' : '' }}>Kampus C – Merr</option>
+
+                        <option value="kampus-a" {{ old('campus') == 'kampus-a' ? 'selected' : '' }}>
+                            Kampus A – Prof. Dr. Moestopo
+                        </option>
+
+                        <option value="kampus-b" {{ old('campus') == 'kampus-b' ? 'selected' : '' }}>
+                            Kampus B – Dharmawangsa
+                        </option>
+
+                        <option value="kampus-c" {{ old('campus') == 'kampus-c' ? 'selected' : '' }}>
+                            Kampus C – Mulyorejo
+                        </option>
                     </select>
-                    @error('campus')<div class="form-error">{{ $message }}</div>@enderror
+
+                    @error('campus')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">Tanggal Ditemukan *</label>
-                    <input type="date" name="found_date" class="form-control" value="{{ old('found_date', date('Y-m-d')) }}" required>
-                    @error('found_date')<div class="form-error">{{ $message }}</div>@enderror
+
+                    <input
+                        type="date"
+                        name="found_date"
+                        class="form-control"
+                        value="{{ old('found_date', date('Y-m-d')) }}"
+                        required
+                    >
+
+                    @error('found_date')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Detail Lokasi</label>
-                    <input type="text" name="location_detail" class="form-control" placeholder="Contoh: Lantai 2 Meja 5, Ruang Diskusi B..." value="{{ old('location_detail') }}">
-                    @error('location_detail')<div class="form-error">{{ $message }}</div>@enderror
+
+                    <input
+                        type="text"
+                        name="location_detail"
+                        class="form-control"
+                        placeholder="Contoh: Ruang 203, Meja 4, Parkiran Timur..."
+                        value="{{ old('location_detail') }}"
+                    >
+
+                    @error('location_detail')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">Ditemukan Oleh</label>
-                    <input type="text" name="found_by" class="form-control" placeholder="Nama petugas / penemu..." value="{{ old('found_by', auth()->user()->name) }}">
-                    @error('found_by')<div class="form-error">{{ $message }}</div>@enderror
+
+                    <input
+                        type="text"
+                        name="found_by"
+                        class="form-control"
+                        placeholder="Nama petugas / penemu"
+                        value="{{ old('found_by', auth()->user()->name) }}"
+                    >
+
+                    @error('found_by')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         </div>
 
-        <div class="card" style="margin-bottom: 24px;">
+        <div class="card" style="margin-bottom:24px;">
             <div class="card-header">
                 <div class="card-title">Catatan Tambahan</div>
             </div>
+
             <div class="form-group" style="margin-bottom:0;">
-                <textarea name="notes" class="form-control" placeholder="Kondisi barang, catatan khusus, dll...">{{ old('notes') }}</textarea>
+                <textarea
+                    name="notes"
+                    class="form-control"
+                    placeholder="Kondisi barang, catatan khusus, isi dompet, nomor seri, dll..."
+                >{{ old('notes') }}</textarea>
             </div>
         </div>
 
-        <div style="display:flex; gap:12px;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
             <button type="submit" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
                 Simpan & Generate QR Code
             </button>
-            <a href="{{ route('items.index') }}" class="btn btn-ghost">Batal</a>
+
+            <a href="{{ route('items.index') }}" class="btn btn-ghost">
+                Batal
+            </a>
         </div>
     </form>
 </div>

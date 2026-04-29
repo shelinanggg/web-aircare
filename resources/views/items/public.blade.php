@@ -3,43 +3,55 @@
 
 @section('content')
 <div style="background: radial-gradient(ellipse 60% 40% at 50% -10%, rgba(0,78,154,0.08) 0%, transparent 60%), var(--bg-primary); padding: 60px 24px 40px;">
-    <div style="max-width: 720px; margin: 0 auto; text-align: center;">
+    <div style="max-width: 960px; margin: 0 auto; text-align: center;">
+        
         <div style="display:inline-block; background:var(--unair-blue-dim); border:1px solid rgba(0,78,154,0.2); color:var(--unair-blue); font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:6px 16px; border-radius:99px; margin-bottom:16px;">
             Barang Tertinggal
         </div>
+        
         <h1 style="font-size:2.5rem; font-weight:800; margin-bottom:12px; color:var(--text-primary);">
             Cari Barang Kamu
         </h1>
-        <p style="color:var(--text-secondary); font-size:1rem; margin-bottom:32px; line-height:1.7;">
-            Kehilangan barang di perpustakaan Universitas Airlangga? Cari di sini dan hubungi petugas kampus yang sesuai.
+        
+        <p style="color:var(--text-secondary); font-size:1rem; margin-bottom:32px; line-height:1.7; max-width: 720px; margin-left: auto; margin-right: auto;">
+            Kehilangan barang di perpustakaan Universitas Airlangga? Cari di sini, cek QR Code barang yang ditemukan, dan hubungi petugas kampus yang sesuai.
         </p>
 
         <form method="GET" action="{{ route('items.public') }}">
-            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:16px;">
-                <div style="position:relative; flex:1; min-width:260px; max-width:440px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center; margin-bottom:16px;">
+                
+                <div style="position:relative; flex:1; min-width:200px;">
                     <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted);">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </span>
-                    <input type="text" name="search" placeholder="Nama barang, kategori, deskripsi..." 
-                        class="form-control" style="padding-left:42px; border-radius:var(--radius-sm);"
+                    <input type="text" name="search" placeholder="Nama barang, deskripsi..." 
+                        class="form-control" style="padding-left:42px; border-radius:var(--radius-sm); width:100%;"
                         value="{{ request('search') }}">
                 </div>
-                <select name="campus" class="filter-select">
+                
+                {{-- Filter Tanggal --}}
+                <input type="date" name="date" class="form-control" 
+                    style="border-radius:var(--radius-sm); color:var(--text-secondary); width:auto;" 
+                    value="{{ request('date') }}" 
+                    title="Tanggal Ditemukan">
+
+                <select name="campus" class="filter-select" style="width:auto;">
                     <option value="">Semua Kampus</option>
                     <option value="kampus-a" {{ request('campus') == 'kampus-a' ? 'selected' : '' }}>Kampus A</option>
                     <option value="kampus-b" {{ request('campus') == 'kampus-b' ? 'selected' : '' }}>Kampus B</option>
                     <option value="kampus-c" {{ request('campus') == 'kampus-c' ? 'selected' : '' }}>Kampus C</option>
                 </select>
-                <select name="category" class="filter-select">
+                
+                <select name="category" class="filter-select" style="width:auto;">
                     <option value="">Semua Kategori</option>
-                    <option value="electronics"  {{ request('category') == 'electronics'  ? 'selected' : '' }}>Elektronik</option>
-                    <option value="documents"    {{ request('category') == 'documents'    ? 'selected' : '' }}>Dokumen</option>
-                    <option value="accessories"  {{ request('category') == 'accessories'  ? 'selected' : '' }}>Aksesori</option>
-                    <option value="bags"         {{ request('category') == 'bags'         ? 'selected' : '' }}>Tas & Dompet</option>
-                    <option value="clothing"     {{ request('category') == 'clothing'     ? 'selected' : '' }}>Pakaian</option>
-                    <option value="other"        {{ request('category') == 'other'        ? 'selected' : '' }}>Lainnya</option>
+                    <option value="valuable" {{ request('category') == 'valuable' ? 'selected' : '' }}>Barang Berharga</option>
+                    <option value="documents" {{ request('category') == 'documents' ? 'selected' : '' }}>Dokumen Berharga</option>
+                    <option value="electronics" {{ request('category') == 'electronics' ? 'selected' : '' }}>Barang Elektronik</option>
+                    <option value="personal" {{ request('category') == 'personal' ? 'selected' : '' }}>Barang Pribadi</option>
+                    <option value="other" {{ request('category') == 'other' ? 'selected' : '' }}>Lainnya</option>
                 </select>
-                <button type="submit" class="btn btn-primary">Cari</button>
+                
+                <button type="submit" class="btn btn-primary" style="white-space:nowrap;">Cari</button>
             </div>
         </form>
     </div>
@@ -50,7 +62,7 @@
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:10px;">
         <div style="font-size:0.875rem; color:var(--text-muted);">
             Menampilkan <strong style="color:var(--text-primary);">{{ $items->total() }}</strong> barang ditemukan
-            @if(request()->anyFilled(['search','campus','category']))
+            @if(request()->anyFilled(['search','campus','category','date']))
                 — hasil filter aktif
                 <a href="{{ route('items.public') }}" style="color:var(--unair-blue); text-decoration:none; margin-left:8px; font-size:0.8rem; font-weight:600;">Reset</a>
             @endif
@@ -63,7 +75,11 @@
     @if($items->count() > 0)
     <div class="items-grid">
         @foreach($items as $item)
-        <div class="item-card" style="cursor:default;">
+        
+        <div class="item-card" 
+             style="cursor:pointer;" 
+             onclick="openQrModal('{{ $item->id }}')">
+             
             {{-- Image --}}
             @if($item->image)
                 <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" class="item-card-img" style="display:block;">
@@ -77,7 +93,7 @@
                             @case('documents')
                                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                                 @break
-                            @case('bags')
+                            @case('personal')
                                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
                                 @break
                             @default
@@ -91,11 +107,11 @@
             <div class="item-card-body">
                 <div class="item-card-title">{{ $item->name }}</div>
 
-                @if($item->description)
+                <!-- @if($item->description)
                 <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px; line-height:1.5;">
                     {{ Str::limit($item->description, 80) }}
                 </div>
-                @endif
+                @endif -->
 
                 <div class="item-card-meta">
                     <span class="badge badge-default">{{ $item->category_label }}</span>
@@ -110,18 +126,64 @@
                             · {{ $item->location_detail }}
                         @endif
                     </div>
-                    <div style="font-size:0.8rem; color:var(--unair-blue); font-weight:700; font-family:monospace; letter-spacing:1px;">
-                        {{ $item->qr_code }}
-                    </div>
                 </div>
 
                 <div style="margin-top:14px; background:var(--bg-card-dark); border-radius:var(--radius-sm); padding:12px; font-size:0.8rem; color:var(--text-muted); line-height:1.5;">
                     <strong style="color:var(--text-primary);">Cara Mengambil:</strong>
-                    Tunjukkan bukti kepemilikan ke petugas perpustakaan
+                    Tunjukkan bukti kepemilikan (QR Code) ke petugas perpustakaan
                     {{ $item->campus_label }}. Bawa identitas (KTM/KTP).
                 </div>
             </div>
         </div>
+
+        {{-- MODAL QR PER ITEM --}}
+        <div id="qr-modal-{{ $item->id }}" 
+             class="modal-backdrop" 
+             style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; align-items:center; justify-content:center;" 
+             onclick="if(event.target===this)this.style.display='none'">
+            
+            <div class="modal" 
+                 onclick="event.stopPropagation()" 
+                 style="max-width:420px; width:100%; text-align:center; background:#fff; padding:24px; border-radius:12px; margin:0 16px;">
+                 
+                <div class="modal-title" style="margin-bottom:18px; font-size:1.2rem; font-weight:700;">
+                    QR Code Barang
+                </div>
+                
+                <div style="
+                    border:3px solid {{ $item->category_color ?? 'var(--border)' }};
+                    border-radius:16px;
+                    padding:22px;
+                    background:#fff;
+                ">
+                    <div style="font-weight:700; margin-bottom:12px; font-size:1.1rem;">
+                        {{ $item->name }}
+                    </div>
+                    
+                    <div style="display:flex; justify-content:center;">
+                        {!! QrCode::size(220)->margin(1)->generate($item->qr_code) !!}
+                    </div>
+                    
+                    <div style="margin-top:12px; font-family:monospace; font-weight:700; font-size:1.1rem; color:var(--unair-blue);">
+                        {{ $item->qr_code }}
+                    </div>
+                    
+                    <div style="margin-top:10px;">
+                        <span class="badge {{ $item->status_badge['class'] ?? 'badge-secondary' }}">
+                            {{ $item->status_badge['label'] ?? 'Ditemukan' }}
+                        </span>
+                    </div>
+                </div>
+                
+                <button type="button" 
+                        class="btn btn-secondary" 
+                        style="width:100%; margin-top:18px;" 
+                        onclick="document.getElementById('qr-modal-{{ $item->id }}').style.display='none'">
+                    Tutup
+                </button>
+            </div>
+        </div>
+
         @endforeach
     </div>
 
@@ -135,7 +197,7 @@
         <p style="color:var(--text-muted); font-size:0.95rem; max-width:400px; margin:0 auto 20px;">
             Coba ubah kata kunci pencarian atau filter kampus/kategori. Jika barang kamu belum terdaftar, hubungi langsung petugas perpustakaan.
         </p>
-        @if(request()->anyFilled(['search','campus','category']))
+        @if(request()->anyFilled(['search','campus','category','date']))
             <a href="{{ route('items.public') }}" class="btn btn-secondary">Reset Pencarian</a>
         @endif
     </div>
@@ -147,7 +209,11 @@
             Hubungi Petugas Perpustakaan
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:16px;">
-            @foreach(['Kampus A' => 'Jl. Prof. DR. Moestopo No.47, Pacar Kembang, Kec. Tambaksari, Surabaya, Jawa Timur 60132', 'Kampus B' => 'Airlangga, Kec. Gubeng, Surabaya, Jawa Timur 60286', 'Kampus C' => 'Mulyorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60115'] as $campus => $addr)
+            @foreach([
+                'Kampus A (Prof. Dr. Moestopo)' => 'Jl. Prof. DR. Moestopo No.47, Pacar Kembang, Kec. Tambaksari, Surabaya 60132', 
+                'Kampus B (Dharmawangsa)' => 'Airlangga, Kec. Gubeng, Surabaya, Jawa Timur 60286', 
+                'Kampus C (Mulyorejo)' => 'Mulyorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60115'
+            ] as $campus => $addr)
             <div style="background:var(--bg-card-dark); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; text-align:center;">
                 <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px; color:var(--unair-blue);">{{ $campus }}</div>
                 <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.5;">{{ $addr }}</div>
@@ -157,4 +223,11 @@
         </div>
     </div>
 </div>
+
+<script>
+function openQrModal(id){
+    document.getElementById('qr-modal-' + id).style.display = 'flex';
+}
+</script>
+
 @endsection
