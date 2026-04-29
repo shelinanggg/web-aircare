@@ -28,9 +28,9 @@ class Item extends Model
     public function getCampusLabelAttribute(): string
     {
         return match ($this->campus) {
-            'kampus-a' => 'Kampus A – Dharmahusada',
-            'kampus-b' => 'Kampus B – Dharmawangsa',
-            'kampus-c' => 'Kampus C – Merr',
+            'kampus-a' => 'Kampus A – JI. Prof. DR. Moestopo No.47',
+            'kampus-b' => 'Kampus B – Jl. Dharmawangsa Dalam',
+            'kampus-c' => 'Kampus C – Jl. Mulyorejo',
             default    => ucfirst($this->campus),
         };
     }
