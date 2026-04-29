@@ -41,26 +41,11 @@
                     <label class="form-label">Kategori *</label>
                     <select name="category" class="form-select" required>
                         <option value="">Pilih kategori...</option>
-
-                        <option value="valuable" {{ old('category') == 'valuable' ? 'selected' : '' }}>
-                            Barang Berharga
-                        </option>
-
-                        <option value="documents" {{ old('category') == 'documents' ? 'selected' : '' }}>
-                            Dokumen Berharga
-                        </option>
-
-                        <option value="electronics" {{ old('category') == 'electronics' ? 'selected' : '' }}>
-                            Barang Elektronik
-                        </option>
-
-                        <option value="personal" {{ old('category') == 'personal' ? 'selected' : '' }}>
-                            Barang Pribadi Umum
-                        </option>
-
-                        <option value="other" {{ old('category') == 'other' ? 'selected' : '' }}>
-                            Lainnya
-                        </option>
+                        <option value="valuable" {{ old('category') == 'valuable' ? 'selected' : '' }}>Barang Berharga</option>
+                        <option value="documents" {{ old('category') == 'documents' ? 'selected' : '' }}>Dokumen Berharga</option>
+                        <option value="electronics" {{ old('category') == 'electronics' ? 'selected' : '' }}>Barang Elektronik</option>
+                        <option value="personal" {{ old('category') == 'personal' ? 'selected' : '' }}>Barang Pribadi Umum</option>
+                        <option value="other" {{ old('category') == 'other' ? 'selected' : '' }}>Lainnya</option>
                     </select>
 
                     @error('category')
@@ -92,11 +77,20 @@
             <div class="form-group">
                 <label class="form-label">Foto Barang</label>
 
+                {{-- Container untuk Preview Foto (Awalnya Disembunyikan) --}}
+                <div id="imagePreviewContainer" style="display: none; margin-bottom: 10px;">
+                    <img id="imagePreview" src="" alt="Preview Foto" style="height: 90px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border);">
+                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 6px;">
+                        Preview foto yang akan diupload.
+                    </div>
+                </div>
+
                 <input
                     type="file"
                     name="image"
                     class="form-control"
                     accept="image/*"
+                    onchange="previewImage(this)"
                 >
 
                 <div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">
@@ -120,18 +114,9 @@
 
                     <select name="campus" class="form-select" required>
                         <option value="">Pilih kampus...</option>
-
-                        <option value="kampus-a" {{ old('campus') == 'kampus-a' ? 'selected' : '' }}>
-                            Kampus A – Prof. Dr. Moestopo
-                        </option>
-
-                        <option value="kampus-b" {{ old('campus') == 'kampus-b' ? 'selected' : '' }}>
-                            Kampus B – Dharmawangsa
-                        </option>
-
-                        <option value="kampus-c" {{ old('campus') == 'kampus-c' ? 'selected' : '' }}>
-                            Kampus C – Mulyorejo
-                        </option>
+                        <option value="kampus-a" {{ old('campus') == 'kampus-a' ? 'selected' : '' }}>Kampus A – Prof. Dr. Moestopo</option>
+                        <option value="kampus-b" {{ old('campus') == 'kampus-b' ? 'selected' : '' }}>Kampus B – Dharmawangsa</option>
+                        <option value="kampus-c" {{ old('campus') == 'kampus-c' ? 'selected' : '' }}>Kampus C – Mulyorejo</option>
                     </select>
 
                     @error('campus')
@@ -219,4 +204,26 @@
         </div>
     </form>
 </div>
+
+{{-- Script untuk memunculkan Preview Foto --}}
+<script>
+    function previewImage(input) {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const previewImage = document.getElementById('imagePreview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block'; // Memunculkan container gambar
+            }
+            
+            reader.readAsDataURL(input.files[0]); // Membaca file yang dipilih
+        } else {
+            previewImage.src = '';
+            previewContainer.style.display = 'none'; // Sembunyikan jika dibatalkan
+        }
+    }
+</script>
 @endsection

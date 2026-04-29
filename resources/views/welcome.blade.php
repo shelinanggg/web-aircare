@@ -12,7 +12,7 @@
         </p>
         <div class="hero-actions">
             <a href="{{ route('items.public') }}" class="btn btn-primary" style="padding:12px 28px; font-size:0.95rem;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 Cari Barang Saya
             </a>
             <a href="{{ route('login') }}" class="btn btn-secondary" style="padding:12px 28px; font-size:0.95rem;">
@@ -26,9 +26,9 @@
 <div style="background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
     <div style="max-width:1000px; margin:0 auto; padding:0 24px; display:grid; grid-template-columns:repeat(3,1fr);">
         @php
-            $totalFound    = \App\Models\Item::where('status','found')->count();
-            $totalClaimed  = \App\Models\Item::where('status','claimed')->count();
-            $totalAll      = \App\Models\Item::count();
+            $totalFound   = \App\Models\Item::where('status','found')->count();
+            $totalClaimed = \App\Models\Item::where('status','claimed')->count();
+            $totalAll     = \App\Models\Item::count();
         @endphp
         @foreach([
             ['label' => 'Barang Belum Diambil', 'value' => $totalFound,   'color' => 'var(--unair-blue)'],
@@ -60,13 +60,26 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px;">
         @foreach([
-            ['title' => 'Sistem Manual', 'desc' => 'Pencatatan tradisional tanpa integrasi antar kampus - data mudah hilang dan tidak bisa diakses lintas lokasi.', 'icon' => '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'],
-            ['title' => 'Informasi Terbatas', 'desc' => 'Data barang hilang dalam 24 jam tanpa dokumentasi digital. Pemilik tidak bisa melacak statusnya.', 'icon' => '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'],
-            ['title' => 'Tidak Terstandar', 'desc' => 'Prosedur berbeda di setiap kampus - tanpa SOP baku, penanganan tidak konsisten dan tidak terukur.', 'icon' => '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'],
+            [
+                'title' => 'Sistem Manual', 
+                'desc' => 'Pencatatan tradisional tanpa integrasi antar kampus - data mudah hilang dan tidak bisa diakses lintas lokasi.', 
+                'icon' => '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>'
+            ],
+            [
+                'title' => 'Informasi Terbatas', 
+                'desc' => 'Data barang hilang dalam 24 jam tanpa dokumentasi digital. Pemilik tidak bisa melacak statusnya.', 
+                'icon' => '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'
+            ],
+            [
+                'title' => 'Tidak Terstandar', 
+                'desc' => 'Prosedur berbeda di setiap kampus - tanpa SOP baku, penanganan tidak konsisten dan tidak terukur.', 
+                'icon' => '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+            ],
         ] as $prob)
         <div style="background:var(--bg-card); border:1px solid rgba(220,53,69,0.2); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);">
             <div style="width:40px; height:40px; background:rgba(220,53,69,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-accent)" stroke-width="2">{!! $prob['icon'] !!}</svg>
+                {{-- Penambahan stroke-linecap="round" stroke-linejoin="round" ada di sini --}}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{!! $prob['icon'] !!}</svg>
             </div>
             <div style="font-weight:700; font-size:0.9rem; margin-bottom:8px; color:var(--text-primary);">{{ $prob['title'] }}</div>
             <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.6;">{{ $prob['desc'] }}</div>
@@ -118,7 +131,8 @@
             ] as $benefit)
             <div style="text-align:center; padding:24px 16px;">
                 <div style="width:52px; height:52px; background:var(--unair-blue-dim); border:1px solid var(--border-glow); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--unair-blue)" stroke-width="2">{!! $benefit['icon'] !!}</svg>
+                    {{-- Di sini juga sudah saya pastikan round linecap-nya aktif --}}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--unair-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{!! $benefit['icon'] !!}</svg>
                 </div>
                 <div style="font-weight:700; font-size:0.875rem; margin-bottom:8px; color:var(--text-primary);">{{ $benefit['title'] }}</div>
                 <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.6;">{{ $benefit['desc'] }}</div>
