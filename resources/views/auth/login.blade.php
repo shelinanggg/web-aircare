@@ -64,7 +64,7 @@
                     Masuk
                 </button>
             </form>
-
+<!-- 
             <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
                 <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-bottom:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Akun Demo</div>
                 <div style="display:flex; flex-direction:column; gap:8px;">
@@ -75,7 +75,7 @@
                         <span style="color:var(--unair-blue); font-weight:700;">Staff A:</span> staff.a@aircare.unair.ac.id / password
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div style="text-align:center; margin-top:20px;">
