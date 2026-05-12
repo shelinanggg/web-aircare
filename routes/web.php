@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +123,15 @@ Route::middleware('auth')->group(function () {
         */
 
         Route::resource('categories', CategoryController::class);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MASTER USER
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource('users', UserController::class);
 
     });
 
