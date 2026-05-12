@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,7 +14,7 @@ class Item extends Model
         'qr_code',
         'name',
         'description',
-        'category',
+        'category_id',
         'campus',
         'location_detail',
         'status',
@@ -31,36 +32,56 @@ class Item extends Model
         'claimed_date' => 'date',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONSHIPS
+    |--------------------------------------------------------------------------
+    */
+
     public function logs()
     {
         return $this->hasMany(ActivityLog::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
     public function getCampusLabelAttribute(): string
     {
         return match ($this->campus) {
+
             'kampus-a' => 'Kampus A – Jl. Prof. Dr. Moestopo No.47',
+
             'kampus-b' => 'Kampus B – Jl. Dharmawangsa Dalam',
+
             'kampus-c' => 'Kampus C – Jl. Mulyorejo',
-            default    => ucfirst($this->campus),
+
+            default => ucfirst($this->campus),
         };
     }
 
     public function getCategoryLabelAttribute(): string
     {
-        return match ($this->category) {
-            'valuable'    => 'Barang Berharga',
-            'documents'   => 'Dokumen Berharga',
-            'electronics' => 'Barang Elektronik',
-            'personal'    => 'Barang Pribadi Umum',
-            'other'       => 'Lainnya',
-            default       => 'Lainnya',
-        };
+        return $this->category?->name ?? 'Tidak Ada Kategori';
+    }
+
+    public function getCategoryColorAttribute(): string
+    {
+        return $this->category?->color ?? '#6B7280';
     }
 
     public function getStatusBadgeAttribute(): array
     {
         return match ($this->status) {
+
             'found' => [
                 'label' => 'Ditemukan',
                 'class' => 'badge-found',
@@ -87,28 +108,26 @@ class Item extends Model
             ],
 
             default => [
-                'label' => $this->status,
+                'label' => ucfirst($this->status),
                 'class' => '',
             ],
         };
     }
 
-    public function getCategoryColorAttribute(): string
-    {
-        return match ($this->category) {
-            'valuable'    => '#EF4444',
-            'documents'   => '#8B5CF6',
-            'electronics' => '#3B82F6',
-            'personal'    => '#22C55E',
-            'other'       => '#6B7280',
-            default       => '#6B7280',
-        };
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | QR GENERATOR
+    |--------------------------------------------------------------------------
+    */
 
     public static function generateQrCode(): string
     {
         do {
-            $code = 'ARC-' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
+
+            $code = 'ARC-' . strtoupper(
+                substr(md5(uniqid(mt_rand(), true)), 0, 8)
+            );
+
         } while (self::where('qr_code', $code)->exists());
 
         return $code;
