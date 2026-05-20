@@ -166,17 +166,6 @@ routes/
 
 ---
 
-## Design System
-
-The UI uses a custom dark teal design system (`public/css/app.css`) inspired by the AIRCARE presentation:
-
-- **Colors**: Dark teal (`#0d2b2b`) background, `#00BFA5` accent
-- **Typography**: Syne (headings) + Space Grotesk (body)
-- **Components**: Cards, badges, modals, tables, progress bars
-- **Responsive**: Mobile-first with collapsible sidebar
-
----
-
 ## License
 
 MIT — Universitas Airlangga Library System
