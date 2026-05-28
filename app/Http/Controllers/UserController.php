@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -56,6 +57,7 @@ class UserController extends Controller
             'password' => [
                 'required',
                 'min:6',
+                'confirmed',
             ],
 
             'role' => [
@@ -69,6 +71,14 @@ class UserController extends Controller
             ],
 
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | HASH PASSWORD
+        |--------------------------------------------------------------------------
+        */
+
+        $validated['password'] = Hash::make($validated['password']);
 
         User::create($validated);
 
@@ -113,6 +123,7 @@ class UserController extends Controller
             'password' => [
                 'nullable',
                 'min:6',
+                'confirmed',
             ],
 
             'role' => [
@@ -133,7 +144,11 @@ class UserController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        if (empty($validated['password'])) {
+        if (!empty($validated['password'])) {
+
+            $validated['password'] = Hash::make($validated['password']);
+
+        } else {
 
             unset($validated['password']);
 
