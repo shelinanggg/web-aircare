@@ -373,6 +373,8 @@ body {
 .badge-found   { background: rgba(0,78,154,0.1); color: var(--unair-blue); border: 1px solid rgba(0,78,154,0.2); }
 .badge-claimed { background: rgba(25,135,84,0.1); color: var(--green); border: 1px solid rgba(25,135,84,0.2); }
 .badge-disposed { background: rgba(253,126,20,0.1); color: var(--orange); border: 1px solid rgba(253,126,20,0.2); }
+.badge-donated { background: rgba(255,193,7,0.12); color: #b58105; border: 1px solid rgba(255,193,7,0.25); }
+.badge-handover { background: rgba(13,110,253,0.10); color: #0d6efd; border: 1px solid rgba(13,110,253,0.25); }
 .badge-high    { background: rgba(220,53,69,0.1); color: var(--red-accent); border: 1px solid rgba(220,53,69,0.2); }
 .badge-default { background: var(--unair-blue-dim); color: var(--unair-blue); border: 1px solid var(--border-glow); }
 .badge-secondary { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); }
