@@ -128,11 +128,26 @@
                     </div>
                 </div>
 
-                <div style="margin-top:14px; background:var(--bg-card-dark); border-radius:var(--radius-sm); padding:12px; font-size:0.8rem; color:var(--text-muted); line-height:1.5;">
-                    <strong style="color:var(--text-primary);">Cara Mengambil:</strong>
-                    Tunjukkan bukti kepemilikan (QR Code) ke petugas perpustakaan
-                    {{ $item->campus_label }}. Bawa identitas (KTM/KTP).
-                </div>
+               <div style="margin-top:14px; background:var(--bg-card-dark); border-radius:var(--radius-sm); padding:12px; font-size:0.8rem; color:var(--text-muted); line-height:1.6;">
+    
+    <strong style="color:var(--text-primary);">Cara Mengambil:</strong>
+
+    <ol style="margin:8px 0 12px 18px; padding:0;">
+        <li>Silakan datang sesuai jam layanan perpustakaan.</li>
+        <li>Membawa identitas diri (KTP/KTM). Barang hanya dapat diambil oleh pemilik barang.</li>
+        <li>Menunjukkan QR Code barang kepada Petugas Perpustakaan {{ $item->campus_label }}.</li>
+        <li>Petugas akan melakukan proses verifikasi data.</li>
+        <li>Barang dapat diambil setelah proses verifikasi selesai.</li>
+    </ol>
+
+    <strong style="color:var(--text-primary);">Jam Layanan Pengambilan Barang Tertinggal:</strong>
+    
+    <div style="margin-top:8px;">
+        Senin – Jumat : Pukul 07.00 – 22.00 WIB<br>
+        Sabtu : Pukul 08.00 – 16.00 WIB
+    </div>
+
+</div>
             </div>
         </div>
 
