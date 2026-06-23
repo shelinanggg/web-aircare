@@ -107,19 +107,13 @@
             <div class="item-card-body">
                 <div class="item-card-title">{{ $item->name }}</div>
 
-                <!-- @if($item->description)
-                <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px; line-height:1.5;">
-                    {{ Str::limit($item->description, 80) }}
-                </div>
-                @endif -->
-
                 <div class="item-card-meta">
                     <span class="badge badge-default">{{ $item->category_label }}</span>
                     <span class="badge badge-secondary">{{ $item->found_date->format('d M Y') }}</span>
                 </div>
 
                 <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
-                    <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                    <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         {{ $item->campus_label }}
                         @if($item->location_detail)
@@ -127,39 +121,18 @@
                         @endif
                     </div>
                 </div>
-
-               <div style="margin-top:14px; background:var(--bg-card-dark); border-radius:var(--radius-sm); padding:12px; font-size:0.8rem; color:var(--text-muted); line-height:1.6;">
-    
-    <strong style="color:var(--text-primary);">Cara Mengambil:</strong>
-
-    <ol style="margin:8px 0 12px 18px; padding:0;">
-        <li>Silakan datang sesuai jam layanan perpustakaan.</li>
-        <li>Membawa identitas diri (KTP/KTM). Barang hanya dapat diambil oleh pemilik barang.</li>
-        <li>Menunjukkan QR Code barang kepada Petugas Perpustakaan {{ $item->campus_label }}.</li>
-        <li>Petugas akan melakukan proses verifikasi data.</li>
-        <li>Barang dapat diambil setelah proses verifikasi selesai.</li>
-    </ol>
-
-    <strong style="color:var(--text-primary);">Jam Layanan Pengambilan Barang Tertinggal:</strong>
-    
-    <div style="margin-top:8px;">
-        Senin – Jumat : Pukul 07.00 – 22.00 WIB<br>
-        Sabtu : Pukul 08.00 – 16.00 WIB
-    </div>
-
-</div>
             </div>
         </div>
 
         {{-- MODAL QR PER ITEM --}}
         <div id="qr-modal-{{ $item->id }}" 
              class="modal-backdrop" 
-             style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; align-items:center; justify-content:center;" 
+             style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; align-items:center; justify-content:center; padding: 20px;" 
              onclick="if(event.target===this)this.style.display='none'">
             
             <div class="modal" 
                  onclick="event.stopPropagation()" 
-                 style="max-width:420px; width:100%; text-align:center; background:#fff; padding:24px; border-radius:12px; margin:0 16px;">
+                 style="max-width:480px; width:100%; text-align:center; background:#fff; padding:24px; border-radius:12px; max-height: 90vh; overflow-y: auto;">
                  
                 <div class="modal-title" style="margin-bottom:18px; font-size:1.2rem; font-weight:700;">
                     QR Code Barang
@@ -189,10 +162,28 @@
                         </span>
                     </div>
                 </div>
+
+                {{-- INFORMASI PENGAMBILAN (Dipindah ke Sini) --}}
+                <div style="margin-top:20px; background:var(--bg-card-dark, #f8f9fa); border-radius:var(--radius-sm); padding:16px; font-size:0.85rem; color:var(--text-muted); line-height:1.6; text-align:left; border: 1px solid var(--border);">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px;">Cara Mengambil:</strong>
+                    <ol style="margin:0 0 16px 20px; padding:0;">
+                        <li style="margin-bottom:4px;">Silakan datang sesuai jam layanan perpustakaan.</li>
+                        <li style="margin-bottom:4px;">Membawa identitas diri (KTP/KTM). Barang hanya dapat diambil oleh pemilik barang.</li>
+                        <li style="margin-bottom:4px;">Menunjukkan QR Code ini kepada Petugas Perpustakaan {{ $item->campus_label }}.</li>
+                        <li style="margin-bottom:4px;">Petugas akan melakukan proses verifikasi data.</li>
+                        <li>Barang dapat diambil setelah proses verifikasi selesai.</li>
+                    </ol>
+
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:4px;">Jam Layanan Pengambilan:</strong>
+                    <div style="margin-top:4px;">
+                        Senin – Jumat : Pukul 07.00 – 22.00 WIB<br>
+                        Sabtu : Pukul 08.00 – 16.00 WIB
+                    </div>
+                </div>
                 
                 <button type="button" 
                         class="btn btn-secondary" 
-                        style="width:100%; margin-top:18px;" 
+                        style="width:100%; margin-top:18px; padding: 10px; font-weight: bold;" 
                         onclick="document.getElementById('qr-modal-{{ $item->id }}').style.display='none'">
                     Tutup
                 </button>

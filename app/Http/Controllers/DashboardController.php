@@ -76,7 +76,7 @@ class DashboardController extends Controller
 
         $recentLogs = ActivityLog::with(['user', 'item'])
             ->latest()
-            ->take(8)
+            ->take(5)
             ->get();
 
         return view('dashboard.index', compact(

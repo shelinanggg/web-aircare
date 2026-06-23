@@ -92,7 +92,7 @@ class ItemController extends Controller
 
         $items = $query
             ->latest()
-            ->paginate(12)
+            ->paginate(10)
             ->withQueryString();
 
         return view('items.index', compact('items'));
@@ -521,7 +521,7 @@ class ItemController extends Controller
 
         $items = $query
             ->latest('found_date')
-            ->paginate(9)
+            ->paginate(12)
             ->withQueryString();
 
         return view('items.public', compact('items'));
