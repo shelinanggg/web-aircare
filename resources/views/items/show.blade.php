@@ -205,7 +205,7 @@
             </div>
 
             <div class="detail-field">
-                <div class="detail-label">NIM / Identitas</div>
+                <div class="detail-label">NIM & Nomor Telepon</div>
                 <div class="detail-value">{{ $item->claimer_nim ?: '—' }}</div>
             </div>
 
@@ -259,7 +259,7 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">NIM / Identitas</label>
+                <label class="form-label">NIM & Nomor Telepon</label>
                 <input type="text" name="claimer_nim" class="form-control">
             </div>
 
