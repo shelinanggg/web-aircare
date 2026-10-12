@@ -11,7 +11,7 @@ A Laravel + MySQL digital system for managing lost & found items across all thre
 
 - 🔍 **Public search** — Anyone can search for lost items without logging in
 - 📦 **Item management** — Register, track, and manage found items with QR codes
-- 🏫 **Multi-campus** — Integrated across Kampus A (Dharmawangsa), B (Mulyorejo), C (Merr)
+- 🏫 **Multi-campus** — Integrated across Kampus A, B, C
 - 📷 **Photo upload** — Attach photos to items for easier identification
 - 🔄 **Status tracking** — Found → Claimed → Disposed workflow
 - 📊 **Dashboard** — Real-time stats and activity log
