@@ -19,12 +19,3 @@ A Laravel + MySQL digital system for managing lost & found items across all thre
 - 📋 **Activity log** — Full audit trail of all actions
 
 ---
-
-## Requirements
-
-- PHP 8.2+
-- Composer
-- MySQL 8.0+
-- Node.js (optional, for asset compilation)
-
----
