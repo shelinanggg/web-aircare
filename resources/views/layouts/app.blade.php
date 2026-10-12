@@ -33,7 +33,8 @@
                 <img
                     src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png"
                     alt="Logo UNAIR"
-                    style="width:36px; height:auto; object-fit:contain; border-radius:4px;"
+                    style="height: 40px; width: auto; object-fit: contain;"
+                    onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-unair.png') }}';"
                 >
             </div>
 

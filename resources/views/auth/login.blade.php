@@ -13,7 +13,12 @@
     <div class="login-box">
         <div class="login-brand">
             <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:8px;">
-                <img src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png" alt="Logo UNAIR" style="height: 40px; width: auto; object-fit: contain;">
+                <img
+                    src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png"
+                    alt="Logo UNAIR"
+                    style="height: 40px; width: auto; object-fit: contain;"
+                    onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-unair.png') }}';"
+                >
                 <div class="login-brand-name">AIRCARE</div>
             </div>
             <div class="login-brand-tagline">Airlangga Library Care & Return Service</div>

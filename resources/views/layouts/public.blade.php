@@ -15,7 +15,12 @@
             
             {{-- Modifikasi Bagian Brand (Logo & Teks) --}}
             <a href="{{ route('home') }}" class="public-brand" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-                <img src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png" alt="Logo UNAIR" style="height: 38px; width: auto; object-fit: contain;">
+                <img
+                    src="https://arsip.unair.ac.id/wp-content/uploads/2019/01/cropped-logo-unair-1.png"
+                    alt="Logo UNAIR"
+                    style="height: 40px; width: auto; object-fit: contain;"
+                    onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-unair.png') }}';"
+                >
                 <div style="display: flex; flex-direction: column; justify-content: center;">
                     <span style="font-weight: 800; font-size: 1.15rem; color: var(--unair-blue, #004e9a); line-height: 1.1;">AIRCARE</span>
                     <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted, #64748b); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Airlangga Library Care & Return Service</span>
@@ -40,7 +45,7 @@
     <footer class="public-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <strong>AIRCARE</strong> — Airlangga Library Care & Return Service
+                <strong>AIRCARE</strong> (Airlangga Library Care & Return Service)
             </div>
             <div class="footer-text">Perpustakaan Universitas Airlangga</div>
         </div>

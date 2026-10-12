@@ -176,8 +176,7 @@
 
                     <strong style="color:var(--text-primary); display:block; margin-bottom:4px;">Jam Layanan Pengambilan:</strong>
                     <div style="margin-top:4px;">
-                        Senin – Jumat : Pukul 07.30 – 22.00 WIB<br>
-                        Sabtu : Pukul 08.00 – 16.00 WIB
+                        Senin - Jumat : Pukul 07.30 - 16.00 WIB
                     </div>
                 </div>
                 
